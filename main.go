@@ -8,8 +8,8 @@ import (
 
 const (
 	Title        = "VTetris"
-	ScreenWidth  = 300
-	ScreenHeight = 600
+	ScreenWidth  = 500
+	ScreenHeight = 650
 )
 
 func main() {
@@ -26,6 +26,7 @@ func main() {
 		rl.ClearBackground(utils.DarkBlue)
 		game.Draw()
 		game.HandleInput()
+		game.Update()
 		rl.EndDrawing()
 	}
 

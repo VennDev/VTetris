@@ -12,12 +12,21 @@ var (
 	currentBlock *comp.Block
 	nextBlock    *comp.Block
 	grid         *comp.Grid
+	loopGame     *Loop
+	GameOver     bool = false
 )
 
 func Init() {
+	loopGame = NewLoop(500, func() {
+		moveDown()
+	})
 	grid = comp.NewGrid(20, 10, 30)
 	currentBlock = GetRandomBlock()
 	nextBlock = GetRandomBlock()
+}
+
+func Update() {
+	loopGame.Update()
 }
 
 func Draw() {
@@ -47,28 +56,58 @@ func GetRandomBlock() *comp.Block {
 	return block
 }
 
-func MoveLeft() {
+func moveLeft() {
+	if GameOver {
+		return
+	}
 	currentBlock.Move(0, -1)
-	if IsBlockOutSide() {
+	if isBlockOutSide() || !blockFits() {
 		currentBlock.Move(0, 1)
 	}
 }
 
-func MoveRight() {
+func moveRight() {
+	if GameOver {
+		return
+	}
 	currentBlock.Move(0, 1)
-	if IsBlockOutSide() {
+	if isBlockOutSide() || !blockFits() {
 		currentBlock.Move(0, -1)
 	}
 }
 
-func MoveDown() {
+func moveDown() {
+	if GameOver {
+		return
+	}
 	currentBlock.Move(1, 0)
-	if IsBlockOutSide() {
+	if isBlockOutSide() || !blockFits() {
 		currentBlock.Move(-1, 0)
+		lockBlock()
 	}
 }
 
-func IsBlockOutSide() bool {
+func rotate() {
+	if GameOver {
+		return
+	}
+	currentBlock.Rotate()
+	if isBlockOutSide() || !blockFits() {
+		currentBlock.Rotate()
+	}
+}
+
+func unRotate() {
+	if GameOver {
+		return
+	}
+	currentBlock.UnRotate()
+	if isBlockOutSide() || !blockFits() {
+		currentBlock.UnRotate()
+	}
+}
+
+func isBlockOutSide() bool {
 	for _, cell := range currentBlock.GetCellPositions() {
 		if grid.IsCellOutSide(cell.Row, cell.Col) {
 			return true
@@ -78,14 +117,50 @@ func IsBlockOutSide() bool {
 	return false
 }
 
+func lockBlock() {
+	for _, cell := range currentBlock.GetCellPositions() {
+		grid.Grid[cell.Row][cell.Col] = currentBlock.GetId()
+	}
+	currentBlock = nextBlock
+	if !blockFits() {
+		GameOver = true
+	}
+	nextBlock = GetRandomBlock()
+	grid.ClearFullRows()
+}
+
+func blockFits() bool {
+	for _, cell := range currentBlock.GetCellPositions() {
+		if !grid.IsCellEmpty(cell.Row, cell.Col) {
+			return false
+		}
+	}
+	return true
+}
+
+func Reset() {
+	grid.ClearAll()
+	currentBlock = GetRandomBlock()
+	nextBlock = GetRandomBlock()
+	GameOver = false
+}
+
 func HandleInput() {
 	key := rl.GetKeyPressed()
+	if GameOver && key != 0 {
+		GameOver = false
+		Reset()
+	}
 	switch key {
 	case rl.KeyLeft:
-		MoveLeft()
+		moveLeft()
 	case rl.KeyRight:
-		MoveRight()
+		moveRight()
 	case rl.KeyDown:
-		MoveDown()
+		moveDown()
+	case rl.KeySpace:
+		unRotate()
+	case rl.KeyUp:
+		rotate()
 	}
 }

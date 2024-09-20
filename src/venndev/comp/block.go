@@ -8,7 +8,7 @@ import (
 
 type Block struct {
 	id            int
-	cells         map[int]math.Position
+	cells         map[int][]math.Position
 	cellSize      int
 	rotationState int
 	color         []rl.Color
@@ -20,7 +20,7 @@ func (b *Block) GetId() int {
 	return b.id
 }
 
-func (b *Block) GetCells() map[int]math.Position {
+func (b *Block) GetCells() map[int][]math.Position {
 	return b.cells
 }
 
@@ -47,16 +47,24 @@ func (b *Block) Rotate() {
 	b.rotationState = (b.rotationState + 1) % 4
 }
 
-// This function is used to get the positions of the cells in the block
-func (b *Block) GetCellPositions() []math.Position {
-	cellPositions := make([]math.Position, len(b.cells))
-	for i, cell := range b.cells {
-		cellPositions[i] = math.Position{cell.Row + b.rowOffset, cell.Col + b.colOffset}
+func (b *Block) UnRotate() {
+	b.rotationState = (b.rotationState - 1) % 4
+	if b.rotationState < 0 {
+		b.rotationState = 0
 	}
-	return cellPositions
 }
 
-func NewBlock(id int, cells map[int]math.Position, cellSize int, rotationState int) *Block {
+// This function is used to get the positions of the cells in the block
+func (b *Block) GetCellPositions() []math.Position {
+	tiles := b.cells[b.rotationState]
+	positions := make([]math.Position, len(tiles))
+	for i, tile := range tiles {
+		positions[i] = math.Position{tile.Row + b.rowOffset, tile.Col + b.colOffset}
+	}
+	return positions
+}
+
+func NewBlock(id int, cells map[int][]math.Position, cellSize int, rotationState int) *Block {
 	block := &Block{id, cells, cellSize, rotationState, utils.GetCellColors(), 0, 0}
 	block.Move(0, 3)
 	return block
