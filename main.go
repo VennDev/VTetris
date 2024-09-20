@@ -3,7 +3,6 @@ package main
 import (
 	rl "github.com/gen2brain/raylib-go/raylib"
 	"github.com/venndev/VTetris/src/venndev/game"
-	"github.com/venndev/VTetris/src/venndev/utils"
 )
 
 const (
@@ -22,13 +21,16 @@ func main() {
 
 	// Main game loop
 	for !rl.WindowShouldClose() {
-		rl.BeginDrawing()
-		rl.ClearBackground(utils.DarkBlue)
-		game.Draw()
-		game.HandleInput()
-		game.Update()
+		if !game.InGame {
+			game.TitleScreen()
+		} else {
+			game.Load()
+		}
 		rl.EndDrawing()
 	}
+
+	// Close game
+	game.Close()
 
 	// De-Initialization
 	rl.CloseWindow()

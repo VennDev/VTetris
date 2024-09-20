@@ -26,8 +26,8 @@ func (g *Grid) Draw() {
 		for j := 0; j < g.numCols; j++ {
 			color := utils.GetCellColors()[g.Grid[i][j]]
 			rl.DrawRectangle(
-				int32(j*g.cellSize+1),
-				int32(i*g.cellSize+1),
+				int32(j*g.cellSize+11),
+				int32(i*g.cellSize+11),
 				int32(g.cellSize-1),
 				int32(g.cellSize-1),
 				color,

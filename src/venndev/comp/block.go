@@ -25,11 +25,11 @@ func (b *Block) GetCells() map[int][]math.Position {
 }
 
 // This function is used to draw the block
-func (b *Block) Draw() {
+func (b *Block) Draw(offsetX, offsetY int) {
 	for _, cell := range b.GetCellPositions() {
 		rl.DrawRectangle(
-			int32(cell.Col*b.cellSize+1),
-			int32(cell.Row*b.cellSize+1),
+			int32(cell.Col*b.cellSize+offsetX),
+			int32(cell.Row*b.cellSize+offsetY),
 			int32(b.cellSize-1),
 			int32(b.cellSize-1),
 			b.color[b.id],

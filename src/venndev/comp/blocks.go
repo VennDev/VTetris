@@ -2,8 +2,18 @@ package comp
 
 import "github.com/venndev/VTetris/src/venndev/utils/math"
 
+const (
+	LBLOCK = 1
+	JBLOCK = 2
+	ZBLOCK = 3
+	SBLOCK = 4
+	TBLOCK = 5
+	OBLOCK = 6
+	IBLOCK = 7
+)
+
 func LBlock() *Block {
-	return NewBlock(1, map[int][]math.Position{
+	return NewBlock(LBLOCK, map[int][]math.Position{
 		0: {
 			{0, 0},
 			{1, 0},
@@ -32,7 +42,7 @@ func LBlock() *Block {
 }
 
 func JBlock() *Block {
-	return NewBlock(2, map[int][]math.Position{
+	return NewBlock(JBLOCK, map[int][]math.Position{
 		0: {
 			{0, 1},
 			{1, 1},
@@ -61,7 +71,7 @@ func JBlock() *Block {
 }
 
 func ZBlock() *Block {
-	return NewBlock(3, map[int][]math.Position{
+	return NewBlock(ZBLOCK, map[int][]math.Position{
 		0: {
 			{0, 0},
 			{0, 1},
@@ -90,7 +100,7 @@ func ZBlock() *Block {
 }
 
 func SBlock() *Block {
-	return NewBlock(4, map[int][]math.Position{
+	return NewBlock(SBLOCK, map[int][]math.Position{
 		0: {
 			{0, 1},
 			{0, 2},
@@ -119,7 +129,7 @@ func SBlock() *Block {
 }
 
 func TBlock() *Block {
-	return NewBlock(5, map[int][]math.Position{
+	return NewBlock(TBLOCK, map[int][]math.Position{
 		0: {
 			{0, 0},
 			{0, 1},
@@ -148,7 +158,7 @@ func TBlock() *Block {
 }
 
 func OBlock() *Block {
-	return NewBlock(6, map[int][]math.Position{
+	return NewBlock(OBLOCK, map[int][]math.Position{
 		0: {
 			{0, 0},
 			{0, 1},
@@ -177,7 +187,7 @@ func OBlock() *Block {
 }
 
 func IBlock() *Block {
-	return NewBlock(7, map[int][]math.Position{
+	return NewBlock(IBLOCK, map[int][]math.Position{
 		0: {
 			{0, 0},
 			{1, 0},
