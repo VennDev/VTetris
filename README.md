@@ -2,7 +2,7 @@
 - The game Tetris
 - Download here (Windows): [click](https://github.com/VennDev/VTetris/releases/tag/1.0)
 
-# Are you want compile game?
+# Do you want compile game?
 - Download the source at here.
 - Now first install some packages here:
 ```
