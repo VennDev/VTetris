@@ -125,7 +125,7 @@ func UpdateScore(lineCleared, moveDownPoints int) {
 	case 3:
 		Score += 300
 	default:
-		break
+		Score += lineCleared * 300
 	}
 
 	Score += moveDownPoints
